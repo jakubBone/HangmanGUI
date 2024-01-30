@@ -4,7 +4,7 @@ public class Gibbet {
     public static String[][] gibbet = new String[9][18];
     public static int gibbetElementsCounter = 0;
 
-    private static final String IMAGES_FOLDER_PATH = "C:\\Users\\Jakub Bone\\Z2J\\HangmanGUI\\src\\GibbetImages";
+    private static final String IMAGES_FOLDER_PATH = "C:\\Users\\Jakub Bone\\Z2J\\HangmanGUI\\src\\images";
 
     public static ImageIcon loadGibbetImage(int index) {
         String imagePath = IMAGES_FOLDER_PATH + "gibbet_" + index + ".png";

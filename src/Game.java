@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.Scanner;
 
 public class Game extends Gibbet {
@@ -5,11 +6,8 @@ public class Game extends Gibbet {
     public static String word;
     public static char[] wordInTable;
     public static char[] hiddenWord;
-
     public static int counter;
-
     public static boolean ifGameContinue = true;
-
 
     public void askForWord() {
         System.out.print("User 1: Come up with a word: ");  // The method asks User 1 for a word.
@@ -25,8 +23,8 @@ public class Game extends Gibbet {
         }
         System.out.println(" Number of letters: " + word.length());
         System.out.println();
+        SwingUtilities.invokeLater(() -> new HangmanGUI());
     }
-
     public void checkGuess() {                              // The method checks if is the letter in the word
         boolean hit = false;
         char userGuess = guessTheLetter();
