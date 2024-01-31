@@ -3,33 +3,51 @@ import java.awt.*;
 
 public class HangmanGUI {
     private JFrame frame;
-    private JPanel gibbetPanel;
+    private JPanel imagePanel;
+    private JPanel mainPanel;
+    private JPanel topPanel;
+    private JPanel middlePanel;
+    private JPanel bottomPanel;
     private JLabel wordLabel;
     private JTextField letterField;
     private JButton guessButton;
 
-        public HangmanGUI(){
-            frame = new JFrame("Hangman Game");
-            frame.setSize(500, 500);
-            frame.setVisible(true);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public HangmanGUI() {
+        frame = new JFrame("Hangman Game");
+        frame.setSize(500, 500);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-            gibbetPanel = new JPanel();
-            wordLabel = new JLabel("Guess the word: " + new String(Game.hiddenWord));
-            letterField = new JTextField(1);
-            guessButton = new JButton("Enter");
+        letterField = new JTextField(1);
+        guessButton = new JButton("Enter");
 
-            gibbetPanel.add(wordLabel);
-            gibbetPanel.add(letterField);
-            gibbetPanel.add(guessButton);
+        int windowHeight = frame.getHeight();
 
-            frame.setLayout(new GridBagLayout());
-            GridBagConstraints gbc = new GridBagConstraints();
-            gbc.gridx = 0;
-            gbc.gridy = 0;
-            gbc.weighty = 1.0;
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
 
-            frame.add(gibbetPanel, gbc);
+        topPanel = new JPanel();
+        wordLabel = new JLabel("Guess the word: \n " + new String(Game.hiddenWord));
+        topPanel.add(wordLabel);
+        mainPanel.add(topPanel, BorderLayout.NORTH);
 
-        }
+        middlePanel = new JPanel();
+        letterField = new JTextField(1);
+        middlePanel.add(letterField);
+        mainPanel.add(middlePanel, BorderLayout.CENTER);
+
+        bottomPanel = new JPanel();
+        guessButton = new JButton("Enter");
+        bottomPanel.add(guessButton);
+        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
+
+        frame.setLayout(new BorderLayout());
+        frame.add(mainPanel);
+
+        imagePanel = new JPanel();
+        imagePanel.setPreferredSize(new Dimension(500, windowHeight / 2));
+        frame.add(imagePanel, BorderLayout.NORTH);
+
+        frame.setVisible(true);
+    }
 }
+
