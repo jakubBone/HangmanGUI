@@ -8,7 +8,8 @@ public class HangmanTest {
 
         gibbet.createEmptyGibbet();
         System.out.println();
-        game.askForWord();
+        game.randomizeWord();
+
 
         SwingUtilities.invokeLater(() -> new HangmanGUI());
 

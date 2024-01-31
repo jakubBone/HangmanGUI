@@ -26,7 +26,8 @@ public class HangmanGUI {
         mainPanel.setLayout(new BorderLayout());
 
         topPanel = new JPanel();
-        wordLabel = new JLabel("Guess the word: \n " + new String(Game.hiddenWord));
+        wordLabel = new JLabel("Guess the word: " + new String(Game.hiddenWord));
+
         topPanel.add(wordLabel);
         mainPanel.add(topPanel, BorderLayout.NORTH);
 
