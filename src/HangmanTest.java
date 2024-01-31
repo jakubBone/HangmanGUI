@@ -10,9 +10,7 @@ public class HangmanTest {
         System.out.println();
         game.randomizeWord();
 
-
         SwingUtilities.invokeLater(() -> new HangmanGUI());
-
 
         while(Game.ifGameContinue){
             game.checkGuess();
