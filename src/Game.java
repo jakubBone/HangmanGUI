@@ -13,9 +13,10 @@ public class Game extends Gibbet {
         System.out.print("User 1: Come up with a word: ");  // The method asks User 1 for a word.
         word = scanner.nextLine().toUpperCase();
         wordInTable = word.toCharArray();                   // First the word is fragmented into chars and located in wordInTable
-        hiddenWord = new char[word.length()];
-        for (int i = 0; i < word.length(); i++) {           // The char[] hiddenWord is filled by '_'
+        hiddenWord = new char[word.length() * 2];
+        for (int i = 0; i < word.length() * 2; i = i + 2 ) {           // The char[] hiddenWord is filled by '_'
             hiddenWord[i] = '_';
+            hiddenWord[i + 1] = ' ';
         }
         System.out.print("Word to guess: ");
         for (int i = 0; i < word.length(); i++) {
@@ -23,7 +24,6 @@ public class Game extends Gibbet {
         }
         System.out.println(" Number of letters: " + word.length());
         System.out.println();
-        SwingUtilities.invokeLater(() -> new HangmanGUI());
     }
     public void checkGuess() {                              // The method checks if is the letter in the word
         boolean hit = false;

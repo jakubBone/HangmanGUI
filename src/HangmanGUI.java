@@ -23,10 +23,13 @@ public class HangmanGUI {
             gibbetPanel.add(letterField);
             gibbetPanel.add(guessButton);
 
-            frame.setLayout(new BorderLayout());
-            gibbetPanel.setLayout(new FlowLayout());
+            frame.setLayout(new GridBagLayout());
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            gbc.weighty = 1.0;
 
-            frame.add(gibbetPanel, BorderLayout.CENTER);
+            frame.add(gibbetPanel, gbc);
 
         }
 }
