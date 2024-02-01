@@ -1,54 +1,84 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 
 public class HangmanGUI {
     private JFrame frame;
-    private JPanel imagePanel;
     private JPanel mainPanel;
-    private JPanel topPanel;
-    private JPanel middlePanel;
-    private JPanel bottomPanel;
+    private JPanel guessPanel;
     private JLabel wordLabel;
-    private JTextField letterField;
+    private JLabel imageLabel;
+    private JTextField textField;
     private JButton guessButton;
+    private static final String IMAGES_FOLDER_PATH = "images";
+    Game game = new Game();
 
     public HangmanGUI() {
+        game.randomizeWord();
+
         frame = new JFrame("Hangman Game");
-        frame.setSize(500, 500);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(600, 600);
 
-        letterField = new JTextField(1);
-        guessButton = new JButton("Enter");
+        textField = new JTextField(1);
+        guessButton = new JButton("Guess");
+        wordLabel = new JLabel(String.valueOf(Game.hiddenWord));
 
-        int windowHeight = frame.getHeight();
+        imageLabel = new JLabel();
+        imageLabel.setPreferredSize(new Dimension(200, 200));
+        imageLabel.setHorizontalAlignment(JLabel.CENTER);
 
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
 
-        topPanel = new JPanel();
-        wordLabel = new JLabel("Guess the word: " + new String(Game.hiddenWord));
+        guessPanel = new JPanel();
+        guessPanel.setLayout(new FlowLayout());
+        guessPanel.add(wordLabel);
+        guessPanel.add(textField);
+        guessPanel.add(guessButton);
 
-        topPanel.add(wordLabel);
-        mainPanel.add(topPanel, BorderLayout.NORTH);
-
-        middlePanel = new JPanel();
-        letterField = new JTextField(1);
-        middlePanel.add(letterField);
-        mainPanel.add(middlePanel, BorderLayout.CENTER);
-
-        bottomPanel = new JPanel();
-        guessButton = new JButton("Enter");
-        bottomPanel.add(guessButton);
-        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
+        mainPanel.add(imageLabel, BorderLayout.CENTER);
+        mainPanel.add(guessPanel, BorderLayout.SOUTH);
 
         frame.setLayout(new BorderLayout());
         frame.add(mainPanel);
 
-        imagePanel = new JPanel();
-        imagePanel.setPreferredSize(new Dimension(500, windowHeight / 2));
-        frame.add(imagePanel, BorderLayout.NORTH);
-
         frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        readImage("C:\\Users\\Jakub Bone\\Z2J\\HangmanGUI\\src\\images\\gibbet_1.jpg");
+        guessButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
     }
+    private void readImage (String address) {
+        try {
+            BufferedImage image = ImageIO.read(new File(address));
+            ImageIcon icon = new ImageIcon(image);
+            imageLabel.setIcon(icon);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /*public static ImageIcon loadGibbetImage(int index) {
+                String imagePath = IMAGES_FOLDER_PATH + "/gibbet_" + index + ".jpg";
+                URL resource = HangmanGUI.class.getClassLoader().getResource(imagePath);
+
+                if (resource != null) {
+                    return new ImageIcon(resource);
+        } else {
+            System.err.println("There is no image: " + imagePath);
+            return null;
+        }
+    }*/
 }
 

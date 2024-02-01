@@ -9,18 +9,24 @@ public class Game extends Gibbet {
     public static int counter;
     public static boolean ifGameContinue = true;
     private String[] words = {"BIKE", "CROCODILE", "MOVIE", "ERROR", "MEXICO", "AIRPORT"};
+
+    public void handleGame(){
+        while(Game.ifGameContinue){
+            checkGuess();
+            System.out.println();
+        }
+    }
     public void randomizeWord() {
         Random random = new Random();
         int index = random.nextInt(words.length);
         word = words[index];
         wordInTable = word.toCharArray();                   // First the word is fragmented into chars and located in wordInTable
-        hiddenWord = new char[word.length() * 2];
-        for (int i = 0; i < word.length() * 2; i = i + 2 ) {           // The char[] hiddenWord is filled by '_'
+        hiddenWord = new char[word.length()];
+        for (int i = 0; i < word.length(); i++ ) {           // The char[] hiddenWord is filled by '_'
             hiddenWord[i] = '_';
-            hiddenWord[i + 1] = ' ';
         }
         System.out.print("Word to guess: ");
-        for (int i = 0; i < word.length() * 2; i++) {
+        for (int i = 0; i < word.length(); i++) {
             System.out.print(hiddenWord[i]);
         }
         System.out.println(" Number of letters: " + word.length());
@@ -72,4 +78,7 @@ public class Game extends Gibbet {
         }
         return guess;
     }
+
+
+
 }
