@@ -37,10 +37,18 @@ public class HangmanGUI {
         mainPanel.setLayout(new BorderLayout());
 
         guessPanel = new JPanel();
-        guessPanel.setLayout(new FlowLayout());
+
+        //////////////////////////////////////////////////////////
+        guessPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        guessPanel.setLayout(new BoxLayout(guessPanel, BoxLayout.Y_AXIS));
+        /////////////////////////////////////////////////////////
+        
         guessPanel.add(wordLabel);
+        guessPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Przerwa o wysokości 10 pikseli
         guessPanel.add(textField);
+        guessPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Przerwa o wysokości 10 pikseli
         guessPanel.add(guessButton);
+
 
         mainPanel.add(imageLabel, BorderLayout.CENTER);
         mainPanel.add(guessPanel, BorderLayout.SOUTH);
