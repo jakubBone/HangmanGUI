@@ -1,5 +1,6 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.text.ParseException;
 
 public class HangmanGUI {
     private JFrame frame;
@@ -14,7 +16,6 @@ public class HangmanGUI {
     private JPanel guessPanel;
     private JLabel wordLabel;
     private JLabel imageLabel;
-    private JLabel instructionLabel;
     private JTextField textField;
     private JButton guessButton;
     private static final String IMAGES_FOLDER_PATH = "images";
@@ -26,40 +27,42 @@ public class HangmanGUI {
         frame = new JFrame("Hangman Game");
         frame.setSize(600, 600);
 
-
-        instructionLabel = new JLabel("GUESS THE WORD:");
-        instructionLabel.setFont(new Font(instructionLabel.getFont().getName(), Font.PLAIN, 20));
         //TEXT
         textField = new JTextField(1);
-        textField.setPreferredSize(new Dimension(50, textField.getPreferredSize().height));
+        textField.setFont(new Font(textField.getFont().getName(), Font.PLAIN, 20)); // Letter size
+        textField.setPreferredSize(new Dimension(textField.getPreferredSize().width, textField.getPreferredSize().height)); // height
+
         // BUTTON
         guessButton = new JButton("Guess");
-        guessButton.setFont(new Font(guessButton.getFont().getName(), Font.PLAIN, 20));
-        guessButton.setPreferredSize(new Dimension(100, 50));
+        guessButton.setFont(new Font(guessButton.getFont().getName(), Font.PLAIN, 20)); //Letter size
+        guessButton.setPreferredSize(new Dimension(100, 50)); // height
+
         // WORD
         wordLabel = new JLabel(String.valueOf(Game.hiddenWord));
-        wordLabel.setFont(new Font(wordLabel.getFont().getName(), Font.PLAIN, 80));
+        wordLabel.setFont(new Font(wordLabel.getFont().getName(), Font.PLAIN, 80)); // Letter size
+        wordLabel.setPreferredSize(new Dimension(wordLabel.getPreferredSize().width, wordLabel.getPreferredSize().height)); // height
 
+        // IMAGE
         imageLabel = new JLabel();
-        imageLabel.setPreferredSize(new Dimension(300, 300));
         imageLabel.setHorizontalAlignment(JLabel.CENTER);
 
+        // MAIN PANEL
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
+        mainPanel.setBackground(Color.white);
 
-        guessPanel = new JPanel();
-        guessPanel.setLayout(new BoxLayout(guessPanel, BoxLayout.Y_AXIS));
-        guessPanel.setBorder(BorderFactory.createEmptyBorder(20, 150, 20, 150));
+        // GUESS PANEL
+        guessPanel = new JPanel(new GridBagLayout());
 
-
-        guessPanel.add(instructionLabel);
-        guessPanel.add(wordLabel);
-        guessPanel.add(Box.createRigidArea(new Dimension(0, 40))); // Przerwa o wysokości 10 pikseli
-        guessPanel.add(textField);
-        guessPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Przerwa o wysokości 10 pikseli
-        guessPanel.add(guessButton);
-
-
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(5, 0, 5, 0);
+        guessPanel.add(wordLabel, gbc);
+        gbc.gridy = 1;
+        guessPanel.add(textField, gbc);
+        gbc.gridy = 2;
+        guessPanel.add(guessButton, gbc);
 
         mainPanel.add(imageLabel, BorderLayout.CENTER);
         mainPanel.add(guessPanel, BorderLayout.SOUTH);
