@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -79,6 +80,18 @@ public class Game extends Gibbet {
         return guess;
     }
 
+    public static String getHiddenWord(){
+        ArrayList <Character> word = new ArrayList<>();
+        for(char element: hiddenWord){
+            word.add(element);
+            word.add(' ');
+        }
+        StringBuilder result = new StringBuilder();
 
+        for(Character element: word){
+            result.append(element);
+        }
+        return result.toString();
+    }
 
 }

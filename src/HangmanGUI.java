@@ -29,7 +29,7 @@ public class HangmanGUI {
 
         //TEXT
         textField = new JTextField(1);
-        textField.setFont(new Font(textField.getFont().getName(), Font.PLAIN, 20)); // Letter size
+        textField.setFont(new Font(textField.getFont().getName(), Font.PLAIN, 30)); // Letter size
         textField.setPreferredSize(new Dimension(textField.getPreferredSize().width, textField.getPreferredSize().height)); // height
 
         // BUTTON
@@ -38,8 +38,8 @@ public class HangmanGUI {
         guessButton.setPreferredSize(new Dimension(100, 50)); // height
 
         // WORD
-        wordLabel = new JLabel(String.valueOf(Game.hiddenWord));
-        wordLabel.setFont(new Font(wordLabel.getFont().getName(), Font.PLAIN, 80)); // Letter size
+        wordLabel = new JLabel(String.valueOf(Game.getHiddenWord()));
+        wordLabel.setFont(new Font(wordLabel.getFont().getName(), Font.PLAIN, 70)); // Letter size
         wordLabel.setPreferredSize(new Dimension(wordLabel.getPreferredSize().width, wordLabel.getPreferredSize().height)); // height
 
         // IMAGE
@@ -63,7 +63,6 @@ public class HangmanGUI {
         guessPanel.add(textField, gbc);
         gbc.gridy = 2;
         guessPanel.add(guessButton, gbc);
-
         mainPanel.add(imageLabel, BorderLayout.CENTER);
         mainPanel.add(guessPanel, BorderLayout.SOUTH);
 
