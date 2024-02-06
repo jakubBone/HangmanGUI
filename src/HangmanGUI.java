@@ -1,16 +1,14 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.text.ParseException;
 
 public class HangmanGUI {
+    private String userName;
     private JFrame frame;
     private JPanel mainPanel;
     private JPanel guessPanel;
@@ -22,8 +20,8 @@ public class HangmanGUI {
     Game game = new Game();
 
     public HangmanGUI() {
-        game.randomizeWord();
-
+        game.createAndHideWord();
+        userName = JOptionPane.showInputDialog("Welcome in Hangman Game! Please enter your name:");
         frame = new JFrame("Hangman Game");
         frame.setSize(600, 600);
 
@@ -73,9 +71,31 @@ public class HangmanGUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         readImage("C:\\Users\\Jakub Bone\\Z2J\\HangmanGUI\\src\\images\\gibbet_1.jpg");
+
+        game.createAndHideWord();
         guessButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String guessedLetter = textField.getText();
+
+                // Check is quessedLetter is single Lletter
+                if (guessedLetter.length() != 1) {
+                    // Exception handling
+                    JOptionPane.showMessageDialog(frame, "Please enter a single letter.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+                    return; // Exit when is more that 1 letter
+                }
+
+                System.out.println("Actual state of word 1: " + String.valueOf(Game.hiddenWord));
+                System.out.println("Actual state of word 2: " + Game.getHiddenWord());
+                System.out.println("Actual state of word 3: " + Game.word);
+                System.out.println("Actual state of word 4: " + Game.wordInTable);
+
+                game.checkGuess(guessedLetter.charAt(0));
+                wordLabel.setText(String.valueOf(Game.getHiddenWord()));
+
+
+
+
 
             }
         });
@@ -90,16 +110,5 @@ public class HangmanGUI {
         }
     }
 
-    /*public static ImageIcon loadGibbetImage(int index) {
-                String imagePath = IMAGES_FOLDER_PATH + "/gibbet_" + index + ".jpg";
-                URL resource = HangmanGUI.class.getClassLoader().getResource(imagePath);
-
-                if (resource != null) {
-                    return new ImageIcon(resource);
-        } else {
-            System.err.println("There is no image: " + imagePath);
-            return null;
-        }
-    }*/
 }
 
