@@ -36,9 +36,10 @@ public class HangmanGUI {
         guessButton.setPreferredSize(new Dimension(100, 50)); // height
 
         // WORD
-        wordLabel = new JLabel(String.valueOf(Game.getHiddenWord()));
-        wordLabel.setFont(new Font(wordLabel.getFont().getName(), Font.PLAIN, 70)); // Letter size
-        wordLabel.setPreferredSize(new Dimension(wordLabel.getPreferredSize().width, wordLabel.getPreferredSize().height)); // height
+        wordLabel = new JLabel(Game.getHiddenWord());
+        wordLabel.setFont(new Font(wordLabel.getFont().getName(), Font.PLAIN, 60)); // Letter size
+        wordLabel.setPreferredSize(new Dimension(Game.getHiddenWord().length() * 30, wordLabel.getPreferredSize().height)); // set letter to 30pix
+        wordLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         // IMAGE
         imageLabel = new JLabel();
@@ -72,7 +73,6 @@ public class HangmanGUI {
 
         readImage("C:\\Users\\Jakub Bone\\Z2J\\HangmanGUI\\src\\images\\gibbet_1.jpg");
 
-        game.createAndHideWord();
         guessButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -81,22 +81,19 @@ public class HangmanGUI {
                 // Check is quessedLetter is single Lletter
                 if (guessedLetter.length() != 1) {
                     // Exception handling
-                    JOptionPane.showMessageDialog(frame, "Please enter a single letter.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
-                    return; // Exit when is more that 1 letter
+                    JOptionPane.showMessageDialog(frame, "Please enter a single letter...", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
 
                 System.out.println("Actual state of word 1: " + String.valueOf(Game.hiddenWord));
                 System.out.println("Actual state of word 2: " + Game.getHiddenWord());
                 System.out.println("Actual state of word 3: " + Game.word);
-                System.out.println("Actual state of word 4: " + Game.wordInTable);
 
                 game.checkGuess(guessedLetter.charAt(0));
-                wordLabel.setText(String.valueOf(Game.getHiddenWord()));
-
-
-
-
-
+                wordLabel.setText(String.valueOf(Game.getHiddenWord()).trim());
+                System.out.println("Actual state of word 1: " + String.valueOf(Game.hiddenWord));
+                System.out.println("Actual state of word 2: " + Game.getHiddenWord());
+                System.out.println("Actual state of word 3: " + Game.word);
             }
         });
     }

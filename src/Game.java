@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Game extends Gibbet {
+public class Game{
     Scanner scanner = new Scanner(System.in);
     public static String word;
     public static char[] wordInTable;
@@ -29,27 +29,23 @@ public class Game extends Gibbet {
         System.out.println();
     }
 
-    public void checkGuess(char letter) {                              // The method checks if is the letter in the word
+    public void checkGuess(char letter) {
         for (int i = 0; i < wordInTable.length; i++) {
             if (wordInTable[i] == letter) {
-                wordInTable[i] = '-';                   // If guess is correct the the letters is repleaced with '-'
+                //wordInTable[i] = '-'; // If guess is correct the the letters is repleaced with '-'
                 hiddenWord[i] = letter;
             }
         }
     }
 
-    public static String getHiddenWord(){
-        ArrayList <Character> word = new ArrayList<>();
-        for(char element: hiddenWord){
-            word.add(element);
-            word.add(' ');
+    public static String getHiddenWord() {
+        StringBuilder formattedWord = new StringBuilder();
+        for (int i = 0; i < hiddenWord.length; i++) {
+            formattedWord.append(hiddenWord[i]);
+            if (i < hiddenWord.length - 1) {
+                formattedWord.append(" ");
+            }
         }
-        StringBuilder result = new StringBuilder();
-
-        for(Character element: word){
-            result.append(element);
-        }
-        return result.toString();
+        return formattedWord.toString();
     }
-
 }
