@@ -13,6 +13,7 @@ public class HangmanGUI {
     private JPanel mainPanel;
     private JPanel guessPanel;
     private JLabel wordLabel;
+    private JLabel attemptsLabel;
     private JLabel imageLabel;
     private JTextField textField;
     private JButton guessButton;
@@ -24,6 +25,12 @@ public class HangmanGUI {
         userName = JOptionPane.showInputDialog("Welcome in Hangman Game! Please enter your name:");
         frame = new JFrame("Hangman Game");
         frame.setSize(600, 600);
+
+        //ATTEMPTS
+
+        attemptsLabel = new JLabel("Attempts left: " + String.valueOf(Game.attemptsCounter));
+        attemptsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        attemptsLabel.setFont(new Font(attemptsLabel.getFont().getName(), Font.PLAIN, 20));
 
         //TEXT
         textField = new JTextField(1);
@@ -62,6 +69,8 @@ public class HangmanGUI {
         guessPanel.add(textField, gbc);
         gbc.gridy = 2;
         guessPanel.add(guessButton, gbc);
+
+        mainPanel.add(attemptsLabel, BorderLayout.NORTH); //
         mainPanel.add(imageLabel, BorderLayout.CENTER);
         mainPanel.add(guessPanel, BorderLayout.SOUTH);
 
@@ -85,15 +94,17 @@ public class HangmanGUI {
                     return;
                 }
 
-                System.out.println("Actual state of word 1: " + String.valueOf(Game.hiddenWord));
-                System.out.println("Actual state of word 2: " + Game.getHiddenWord());
-                System.out.println("Actual state of word 3: " + Game.word);
-
-                game.checkGuess(guessedLetter.charAt(0));
+                if(game.checkGuess(guessedLetter.charAt(0))){
+                    System.out.println("HIT!");
+                } else{
+                    System.out.println("MISSED!");
+                    Game.attemptsCounter--;
+                    System.out.println("Attempts left: " + Game.attemptsCounter);
+                }
                 wordLabel.setText(String.valueOf(Game.getHiddenWord()).trim());
-                System.out.println("Actual state of word 1: " + String.valueOf(Game.hiddenWord));
-                System.out.println("Actual state of word 2: " + Game.getHiddenWord());
-                System.out.println("Actual state of word 3: " + Game.word);
+                attemptsLabel.setText("Attempts left: " + String.valueOf(Game.attemptsCounter));
+                System.out.println("Word: " + Game.word);
+                System.out.println("Hidden Word: " + Game.getHiddenWord());
             }
         });
     }

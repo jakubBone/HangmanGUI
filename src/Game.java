@@ -1,5 +1,4 @@
 
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -8,7 +7,7 @@ public class Game{
     public static String word;
     public static char[] wordInTable;
     public static char[] hiddenWord;
-    public static int counter;
+    public static int attemptsCounter = 12;
     public static boolean ifGameContinue = true;
     private String[] words = {"BIKE", "CROCODILE", "MOVIE", "ERROR", "MEXICO", "AIRPORT"};
 
@@ -29,13 +28,15 @@ public class Game{
         System.out.println();
     }
 
-    public void checkGuess(char letter) {
+    public boolean checkGuess(char letter) {
+        boolean isValid = false;
         for (int i = 0; i < wordInTable.length; i++) {
             if (wordInTable[i] == letter) {
-                //wordInTable[i] = '-'; // If guess is correct the the letters is repleaced with '-'
                 hiddenWord[i] = letter;
+                isValid = true;
             }
         }
+        return isValid;
     }
 
     public static String getHiddenWord() {
