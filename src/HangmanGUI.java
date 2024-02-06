@@ -23,42 +23,73 @@ public class HangmanGUI {
 
     public HangmanGUI() {
         game.createAndHideWord();
-
         userName = JOptionPane.showInputDialog("Welcome in Hangman Game! Please enter your name:").toUpperCase();
+
+        setFrame();
+        setAttemptsLabel();
+        setTextField();
+        setGuessButton();
+        setWordLabel();
+        setImageLabel();
+        setMainPanel();
+        setGuessPanel();
+        addComponentsToFrame();
+
+        readImage("C:\\Users\\Jakub Bone\\Z2J\\HangmanGUI\\src\\images\\gibbet_1.jpg");
+        guessButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String guessedLetter = textField.getText();
+                handleGuess(guessedLetter);
+                wordLabel.setText(String.valueOf(Game.getHiddenWord()));
+            }
+        });
+    }
+
+    private void setFrame(){
         frame = new JFrame("Hangman Game");
         frame.setSize(700, 700);
+        frame.setLayout(new BorderLayout());
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
 
-        //ATTEMPTS
+    private void setAttemptsLabel(){
         attemptsLabel = new JLabel("Hello Buddy! Let's try to guess the hidden word!");
         attemptsLabel.setHorizontalAlignment(SwingConstants.CENTER);
         attemptsLabel.setFont(new Font(attemptsLabel.getFont().getName(), Font.PLAIN, 20));
-
-        //TEXT
+    }
+    private void setTextField(){
         textField = new JTextField(1);
         textField.setFont(new Font(textField.getFont().getName(), Font.PLAIN, 30)); // Letter size
         textField.setPreferredSize(new Dimension(textField.getPreferredSize().width, textField.getPreferredSize().height)); // height
+    }
 
-        // BUTTON
+    private void setGuessButton(){
         guessButton = new JButton("Guess");
         guessButton.setFont(new Font(guessButton.getFont().getName(), Font.PLAIN, 20)); //Letter size
         guessButton.setPreferredSize(new Dimension(100, 50)); // height
+    }
 
-        // WORD
+    private void setWordLabel(){
         wordLabel = new JLabel(Game.getHiddenWord());
         wordLabel.setFont(new Font(wordLabel.getFont().getName(), Font.PLAIN, 60)); // Letter size
         wordLabel.setPreferredSize(new Dimension(Game.getHiddenWord().length() * 30, wordLabel.getPreferredSize().height)); // set letter to 30pix
         wordLabel.setHorizontalAlignment(SwingConstants.CENTER);
+    }
 
-        // IMAGE
+    private void setImageLabel(){
         imageLabel = new JLabel();
         imageLabel.setHorizontalAlignment(JLabel.CENTER);
+    }
 
-        // MAIN PANEL
+    private void setMainPanel(){
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setBackground(Color.white);
+    }
 
-        // GUESS PANEL
+    private void setGuessPanel(){
         guessPanel = new JPanel(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -70,31 +101,15 @@ public class HangmanGUI {
         guessPanel.add(textField, gbc);
         gbc.gridy = 2;
         guessPanel.add(guessButton, gbc);
-
-        mainPanel.add(attemptsLabel, BorderLayout.NORTH); //
+    }
+    private void addComponentsToFrame(){
+        mainPanel.add(attemptsLabel, BorderLayout.NORTH);
         mainPanel.add(imageLabel, BorderLayout.CENTER);
         mainPanel.add(guessPanel, BorderLayout.SOUTH);
-
-        frame.setLayout(new BorderLayout());
         frame.add(mainPanel);
-
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        readImage("C:\\Users\\Jakub Bone\\Z2J\\HangmanGUI\\src\\images\\gibbet_1.jpg");
-
-        guessButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String guessedLetter = textField.getText();
-                handleGuess(guessedLetter);
-                wordLabel.setText(String.valueOf(Game.getHiddenWord()));
-            }
-        });
     }
 
     private void handleGuess(String guessedLetter){
-
         // Check is quessedLetter is single Lletter
         if (guessedLetter.length() != 1) {
             // Exception handling
@@ -109,10 +124,7 @@ public class HangmanGUI {
             attemptsLabel.setText("Yikes! That must have hurt... Be careful! You still have "
                     + String.valueOf(Game.attemptsCounter) + " attempts left");
         }
-
     }
-
-
     private void readImage (String address) {
         try {
             BufferedImage image = ImageIO.read(new File(address));
