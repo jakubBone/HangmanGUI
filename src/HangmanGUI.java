@@ -20,15 +20,16 @@ public class HangmanGUI {
     private static final String IMAGES_FOLDER_PATH = "images";
     Game game = new Game();
 
+
     public HangmanGUI() {
         game.createAndHideWord();
-        userName = JOptionPane.showInputDialog("Welcome in Hangman Game! Please enter your name:");
+
+        userName = JOptionPane.showInputDialog("Welcome in Hangman Game! Please enter your name:").toUpperCase();
         frame = new JFrame("Hangman Game");
-        frame.setSize(600, 600);
+        frame.setSize(700, 700);
 
         //ATTEMPTS
-
-        attemptsLabel = new JLabel("Attempts left: " + String.valueOf(Game.attemptsCounter));
+        attemptsLabel = new JLabel("Hello Buddy! Let's try to guess the hidden word!");
         attemptsLabel.setHorizontalAlignment(SwingConstants.CENTER);
         attemptsLabel.setFont(new Font(attemptsLabel.getFont().getName(), Font.PLAIN, 20));
 
@@ -86,28 +87,32 @@ public class HangmanGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String guessedLetter = textField.getText();
-
-                // Check is quessedLetter is single Lletter
-                if (guessedLetter.length() != 1) {
-                    // Exception handling
-                    JOptionPane.showMessageDialog(frame, "Please enter a single letter...", "Invalid Input", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                if(game.checkGuess(guessedLetter.charAt(0))){
-                    System.out.println("HIT!");
-                } else{
-                    System.out.println("MISSED!");
-                    Game.attemptsCounter--;
-                    System.out.println("Attempts left: " + Game.attemptsCounter);
-                }
-                wordLabel.setText(String.valueOf(Game.getHiddenWord()).trim());
-                attemptsLabel.setText("Attempts left: " + String.valueOf(Game.attemptsCounter));
-                System.out.println("Word: " + Game.word);
-                System.out.println("Hidden Word: " + Game.getHiddenWord());
+                handleGuess(guessedLetter);
+                wordLabel.setText(String.valueOf(Game.getHiddenWord()));
             }
         });
     }
+
+    private void handleGuess(String guessedLetter){
+
+        // Check is quessedLetter is single Lletter
+        if (guessedLetter.length() != 1) {
+            // Exception handling
+            JOptionPane.showMessageDialog(frame, "Please enter a single letter...", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if(game.checkGuess(guessedLetter.charAt(0))){
+            attemptsLabel.setText("Hit! Well done " + userName + "! Keep going!");
+        } else{
+            Game.attemptsCounter--;
+            attemptsLabel.setText("Yikes! That must have hurt... Be careful! You still have "
+                    + String.valueOf(Game.attemptsCounter) + " attempts left");
+        }
+
+    }
+
+
     private void readImage (String address) {
         try {
             BufferedImage image = ImageIO.read(new File(address));
