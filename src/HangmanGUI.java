@@ -21,7 +21,6 @@ public class HangmanGUI {
     Game game = new Game();
 
     public HangmanGUI() {
-        game.createAndHideWord();
         userName = JOptionPane.showInputDialog("Welcome in Hangman Game! Please enter your name:").toUpperCase();
 
         setFrame();
@@ -122,9 +121,11 @@ public class HangmanGUI {
                 if(game.checkGuess(guessedLetter.charAt(0))){
                     attemptsLabel.setText("Hit! Well done " + userName + "! Keep going!");
                 } else{
-                    Game.attemptsCounter--;
+                    game.setAttemptsCounter();
                     attemptsLabel.setText("Yikes! That must have hurt... Be careful! You still have "
-                            + String.valueOf(Game.attemptsCounter) + " attempts left");
+                            + String.valueOf(game.getAttemptsCounter()) + " attempts left");
+                    // readImage
+
                 }
                 wordLabel.setText(String.valueOf(Game.getHiddenWord()));
                 textField.setText("");

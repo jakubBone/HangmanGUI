@@ -4,14 +4,18 @@ import java.util.Scanner;
 
 public class Game{
     Scanner scanner = new Scanner(System.in);
-    public static String word;
-    public static char[] wordInTable;
-    public static char[] hiddenWord;
-    public static int attemptsCounter = 12;
-    public static boolean ifGameContinue = true;
+    private  static String word;
+    private static char[] wordInTable;
+    private static char[] hiddenWord;
+    private static int attemptsCounter = 12;
+    private static boolean ifGameContinue = true;
     private String[] words = {"BIKE", "CROCODILE", "MOVIE", "ERROR", "MEXICO", "AIRPORT"};
 
-    public void createAndHideWord() {
+    public Game(){
+        initializeWord();
+    }
+
+    private void initializeWord() {
         Random random = new Random();
         int index = random.nextInt(words.length);
         word = words[index];
@@ -48,5 +52,12 @@ public class Game{
             }
         }
         return formattedWord.toString();
+    }
+
+    public void setAttemptsCounter() {
+         attemptsCounter--;
+    }
+    public int getAttemptsCounter() {
+        return attemptsCounter;
     }
 }
