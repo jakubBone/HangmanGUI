@@ -7,8 +7,7 @@ public class Game{
     private  static String word;
     private static char[] wordInTable;
     private static char[] hiddenWord;
-    private static int attemptsCounter = 12;
-    private static boolean ifGameContinue = true;
+    private static int attemptsCounter = 2;
     private String[] words = {"BIKE", "CROCODILE", "MOVIE", "ERROR", "MEXICO", "AIRPORT"};
 
     public Game(){
@@ -59,5 +58,9 @@ public class Game{
     }
     public int getAttemptsCounter() {
         return attemptsCounter;
+    }
+
+    public boolean ifAttemptsExhausted(){
+        return attemptsCounter == 0;
     }
 }
