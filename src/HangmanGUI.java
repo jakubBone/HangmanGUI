@@ -1,11 +1,7 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 public class HangmanGUI {
     private String userName;
@@ -19,7 +15,6 @@ public class HangmanGUI {
     private JButton guessButton;
     Game game = new Game();
     GibbetImage gibbetImage = new GibbetImage();
-    public static int imageIndex;
 
     public HangmanGUI() {
         userName = JOptionPane.showInputDialog("Welcome in Hangman Game! Please enter your name:").toUpperCase();
@@ -33,13 +28,17 @@ public class HangmanGUI {
         setGuessPanel();
         addComponentsToFrame();
 
+        setWelcomeImage();
+
         performAction();
+
 
     }
 
     private void setFrame(){
         frame = new JFrame("Hangman Game");
-        frame.setSize(700, 700);
+        frame.setSize(1500, 700);
+        frame.setLocationRelativeTo(null);
         frame.setLayout(new BorderLayout());
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -100,15 +99,9 @@ public class HangmanGUI {
         frame.add(mainPanel);
     }
     private void performAction(){
-        imageLabel.setIcon(gibbetImage.images.get(imageIndex));
         guessButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                if(game.ifAttemptsExhausted()){
-                    JOptionPane.showMessageDialog(null, "All attempts exhausted! You lost :(");
-                    System.exit(0);
-                }
 
                 String guessedLetter = textField.getText().toUpperCase();
 
@@ -120,24 +113,40 @@ public class HangmanGUI {
                 if(game.checkGuess(guessedLetter.charAt(0))){
                     attemptsLabel.setText("Hit! Well done " + userName + "! Keep going!");
                 } else{
-                    game.setAttemptsCounter();
+                    game.decrementAttemptsCounter();
                     attemptsLabel.setText("Yikes! That must have hurt... Be careful! You still have "
-                            + String.valueOf(game.getAttemptsCounter()) + " attempts left");
-                    imageIndex --;
-                    updateImage();
-
+                            + String.valueOf(game.getAttemptsCounter()) + " attempts left");;
+                    gibbetImage.incrementCurrentImageIndex();
+                    setGibbetImage();
                 }
                 wordLabel.setText(String.valueOf(Game.getHiddenWord()));
                 clearTextField(textField);
+
+                if(game.ifGameFinished()){
+                    displayGameResult();
+                    System.exit(0);
+                }
             }
         });
     }
 
-    private void updateImage(){
-        imageLabel.setIcon()
-    }
     private void clearTextField(JTextField field){
         field.setText("");
     }
+    private void setWelcomeImage(){
+        imageLabel.setIcon(gibbetImage.welcomeImage);
+    }
+    private void setGibbetImage(){
+        imageLabel.setIcon(gibbetImage.getImage());
+    }
+
+    private void displayGameResult(){
+        if(game.ifAttemptsExhausted()){
+            JOptionPane.showMessageDialog(null, "All attempts exhausted! You lost :(");
+        } else if(game.isWordGuessed()){
+            JOptionPane.showMessageDialog(null, "Congratulations! You guessed! :)");
+        }
+    }
+
 }
 

@@ -4,10 +4,10 @@ import java.util.Scanner;
 
 public class Game{
     Scanner scanner = new Scanner(System.in);
-    private  static String word;
+    private static String word;
     private static char[] wordInTable;
     private static char[] hiddenWord;
-    private static int attemptsCounter = 12;
+    private static int attemptsCounter = 11;
     private String[] words = {"BIKE", "CROCODILE", "MOVIE", "ERROR", "MEXICO", "AIRPORT"};
 
     public Game(){
@@ -35,6 +35,7 @@ public class Game{
         boolean isValid = false;
         for (int i = 0; i < wordInTable.length; i++) {
             if (wordInTable[i] == letter) {
+                wordInTable[i] = 'x';
                 hiddenWord[i] = letter;
                 isValid = true;
             }
@@ -53,16 +54,20 @@ public class Game{
         return formattedWord.toString();
     }
 
-    public void setAttemptsCounter() {
+    public void decrementAttemptsCounter() {
          attemptsCounter--;
     }
     public int getAttemptsCounter() {
         return attemptsCounter;
     }
-
-
-
     public boolean ifAttemptsExhausted(){
         return attemptsCounter == 0;
+    }
+    public boolean isWordGuessed() {
+        return !String.valueOf(hiddenWord).contains("_");
+    }
+
+    public boolean ifGameFinished(){
+        return ifAttemptsExhausted() || isWordGuessed();
     }
 }

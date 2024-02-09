@@ -1,8 +1,4 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class GibbetImage {
@@ -20,7 +16,8 @@ public class GibbetImage {
     ImageIcon gibbet11 = new ImageIcon("src\\images\\Gibbet_11.png");
 
     ArrayList<ImageIcon> images = new ArrayList<>();
-    private static int currentImageIndex = 1;
+    private static int currentImageIndex = 0;
+
     public GibbetImage(){
         images.add(welcomeImage);
         images.add(gibbet1);
@@ -36,21 +33,11 @@ public class GibbetImage {
         images.add(gibbet11);
     }
 
-    public void loadNextGibbetImage() {
-        String filename = "src/images/gibbet_" + currentImageIndex + ".png";
-        File file = new File(filename);
+    public ImageIcon getImage(){
+        return images.get(currentImageIndex);
+    }
 
-        if (file.exists()) {
-            try {
-                BufferedImage image = ImageIO.read(file);
-                ImageIcon icon = new ImageIcon(image);
-                images.add(icon);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            currentImageIndex++;
-        } else {
-            System.out.println("No file available: " + filename);
-        }
+    public void incrementCurrentImageIndex(){
+        currentImageIndex++;
     }
 }
