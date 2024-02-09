@@ -18,7 +18,6 @@ public class HangmanGUI {
 
     public HangmanGUI() {
         userName = JOptionPane.showInputDialog(null, "Please enter your name:", "Welcome to Hangman Game!", JOptionPane.PLAIN_MESSAGE).toUpperCase();
-        //userName = JOptionPane.showInputDialog("Welcome in Hangman Game! Please enter your name:").toUpperCase();
         setFrame();
         setAttemptsLabel();
         setTextField();
@@ -31,10 +30,9 @@ public class HangmanGUI {
 
         setWelcomeImage();
         performAction();
-
     }
 
-    private void setFrame(){
+    private void setFrame() {
         frame = new JFrame("Hangman Game");
         frame.setSize(1500, 700);
         frame.setLocationRelativeTo(null);
@@ -43,43 +41,44 @@ public class HangmanGUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    private void setAttemptsLabel(){
+    private void setAttemptsLabel() {
         attemptsLabel = new JLabel("Hello " + userName + "! Let's guess the hidden word!");
         attemptsLabel.setHorizontalAlignment(SwingConstants.CENTER);
         attemptsLabel.setFont(new Font(attemptsLabel.getFont().getName(), Font.PLAIN, 20));
     }
 
-    private void setTextField(){
+    private void setTextField() {
         textField = new JTextField(1);
-        textField.setFont(new Font(textField.getFont().getName(), Font.PLAIN, 30)); // Letter size
-        textField.setPreferredSize(new Dimension(textField.getPreferredSize().width, textField.getPreferredSize().height)); // height
+        textField.setFont(new Font(textField.getFont().getName(), Font.PLAIN, 30));
+        textField.setPreferredSize(new Dimension(textField.getPreferredSize().width, textField.getPreferredSize().height));
     }
 
-    private void setGuessButton(){
+    private void setGuessButton() {
         guessButton = new JButton("Guess");
-        guessButton.setFont(new Font(guessButton.getFont().getName(), Font.PLAIN, 20)); //Letter size
-        guessButton.setPreferredSize(new Dimension(100, 50)); // height
+        guessButton.setFont(new Font(guessButton.getFont().getName(), Font.PLAIN, 20));
+        guessButton.setPreferredSize(new Dimension(100, 50));
     }
 
-    private void setWordLabel(){
+    private void setWordLabel() {
         wordLabel = new JLabel(Game.getHiddenWord());
-        wordLabel.setFont(new Font(wordLabel.getFont().getName(), Font.PLAIN, 60)); // Letter size
-        wordLabel.setPreferredSize(new Dimension(Game.getHiddenWord().length() * 30, wordLabel.getPreferredSize().height)); // set letter to 30pix
+        wordLabel.setFont(new Font(wordLabel.getFont().getName(), Font.PLAIN, 60));
+        wordLabel.setPreferredSize(new Dimension(Game.getHiddenWord().length() * 30, wordLabel.getPreferredSize().height)); // set letter to 30 px
         wordLabel.setHorizontalAlignment(SwingConstants.CENTER);
     }
 
-    private void setImageLabel(){
+    private void setImageLabel() {
         imageLabel = new JLabel();
         imageLabel.setHorizontalAlignment(JLabel.CENTER);
     }
 
-    private void setMainPanel(){
+    private void setMainPanel() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setBackground(Color.white);
     }
 
-    private void setGuessPanel(){
+    // Setting vertical component layout in guessPanel
+    private void setGuessPanel() {
         guessPanel = new JPanel(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -92,13 +91,16 @@ public class HangmanGUI {
         gbc.gridy = 2;
         guessPanel.add(guessButton, gbc);
     }
-    private void addComponentsToFrame(){
+
+    private void addComponentsToFrame() {
         mainPanel.add(attemptsLabel, BorderLayout.NORTH);
         mainPanel.add(imageLabel, BorderLayout.CENTER);
         mainPanel.add(guessPanel, BorderLayout.SOUTH);
         frame.add(mainPanel);
     }
-    private void performAction(){
+
+    // A basic method responsible for action performing after button press
+    private void performAction() {
         guessButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -108,7 +110,7 @@ public class HangmanGUI {
                 displayUpdatedWord();
                 clearTextField(textField);
 
-                if(game.ifGameFinished()){
+                if (game.ifGameFinished()) {
                     displayFinalResult();
                     System.exit(0);
                 }
@@ -116,49 +118,55 @@ public class HangmanGUI {
         });
     }
 
-    private void clearTextField(JTextField field){
-        field.setText("");
-    }
-    private void setWelcomeImage(){
-        imageLabel.setIcon(gibbetImage.welcomeImage);
-    }
-    private void setGibbetImage(){
-        imageLabel.setIcon(gibbetImage.getImage());
-    }
-    private void displayUpdatedWord(){
-        wordLabel.setText(String.valueOf(Game.getHiddenWord()));
-    }
-
-    private void displayGameMessage(String guessedLetter){
+    // A method responsible for displaying the appropriate message regarding to specific action
+    // Possible scenarios: letter not single, letter used twice, letter guessed or missed
+    private void displayGameMessage(String guessedLetter) {
         if (guessedLetter.length() != 1) {
-            JOptionPane.showMessageDialog(frame, "Please enter a single letter...", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+            showErrorMessage("Please enter a single letter...");
             return;
         }
-        if(Game.getHiddenWord().contains(guessedLetter)){
-            JOptionPane.showMessageDialog(frame, "The letter used twice. Please try again", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+       if (Game.getHiddenWord().contains(guessedLetter)) {
+            showErrorMessage("The letter used twice. Please try again");
             return;
         }
-        if(game.checkGuess(guessedLetter.charAt(0))){
+
+        if (game.ifLetterGuessed(guessedLetter.charAt(0))) {
             attemptsLabel.setText("Hit! Well done " + userName + "! Keep going!");
-        } else{
+        } else {
             game.decrementAttemptsCounter();
             attemptsLabel.setText("Yikes! That must have hurt... Be careful! You still have "
-                    + String.valueOf(game.getAttemptsCounter()) + " attempts left");;
+                    + String.valueOf(game.getAttemptsCounter()) + " attempts left");
             gibbetImage.incrementCurrentImageIndex();
             setGibbetImage();
         }
     }
 
-    private void displayFinalResult(){
-        if(game.ifAttemptsExhausted()){
-            JOptionPane.showMessageDialog(frame, "All attempts exhausted! You lost :(", "Hangman Game", JOptionPane.PLAIN_MESSAGE);
-            //.showMessageDialog(null, "All attempts exhausted! You lost :(");
-        } else if(game.isWordGuessed()){
-            JOptionPane.showMessageDialog(frame, "Congratulations! You guessed! :)", "Hangman Game", JOptionPane.PLAIN_MESSAGE);
+    private void showErrorMessage(String message) {
+        JOptionPane.showMessageDialog(frame, message, "Invalid Input", JOptionPane.ERROR_MESSAGE);
+    }
 
-            //JOptionPane.showMessageDialog(null, "Congratulations! You guessed! :)");
+    // Displaying final message when user win or lost
+    private void displayFinalResult() {
+        if (game.areAttemptsExhausted()) {
+            JOptionPane.showMessageDialog(frame, "All attempts exhausted! You lost :(", "Hangman Game", JOptionPane.PLAIN_MESSAGE);
+        } else if (game.ifWordGuessed()) {
+            JOptionPane.showMessageDialog(frame, "Congratulations! You guessed! :)", "Hangman Game", JOptionPane.PLAIN_MESSAGE);
         }
     }
 
-}
+    private void clearTextField(JTextField field) {
+        field.setText("");
+    }
 
+    private void setWelcomeImage() {
+        imageLabel.setIcon(gibbetImage.welcomeImage);
+    }
+
+    private void setGibbetImage() {
+        imageLabel.setIcon(gibbetImage.getImage());
+    }
+
+    private void displayUpdatedWord() {
+        wordLabel.setText(String.valueOf(Game.getHiddenWord()));
+    }
+}

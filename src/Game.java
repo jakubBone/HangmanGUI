@@ -11,10 +11,10 @@ public class Game{
     private String[] words = {"BIKE", "CROCODILE", "MOVIE", "ERROR", "MEXICO", "AIRPORT"};
 
     public Game(){
-        initializeWord();
+        initWord();
     }
-    // Randomize the word from array and hide the letters to '_'
-    private void initializeWord() {
+    // Randomizing the word from array and hide the letters to '_'
+    private void initWord() {
         Random random = new Random();
         int index = random.nextInt(words.length);
         word = words[index];
@@ -23,19 +23,15 @@ public class Game{
         for (int i = 0; i < word.length(); i++ ) {
             hiddenWord[i] = '_';
         }
-        System.out.print("Word to guess: ");
         for (int i = 0; i < word.length(); i++) {
             System.out.print(hiddenWord[i]);
         }
-        System.out.println(" Number of letters: " + word.length());
-        System.out.println();
     }
 
-    public boolean checkGuess(char letter) {
+    public boolean ifLetterGuessed(char letter) {
         boolean isValid = false;
         for (int i = 0; i < wordInTable.length; i++) {
             if (wordInTable[i] == letter) {
-                wordInTable[i] = 'x';
                 hiddenWord[i] = letter;
                 isValid = true;
             }
@@ -43,6 +39,8 @@ public class Game{
         return isValid;
     }
 
+    // Preparing a delimited hidden word using append(" ") e.g. BIKE -> B I K E
+    // The pattern is suitable for display in a Frame
     public static String getHiddenWord() {
         StringBuilder formattedWord = new StringBuilder();
         for (int i = 0; i < hiddenWord.length; i++) {
@@ -60,14 +58,13 @@ public class Game{
     public int getAttemptsCounter() {
         return attemptsCounter;
     }
-    public boolean ifAttemptsExhausted(){
+    public boolean areAttemptsExhausted(){
         return attemptsCounter == 0;
     }
-    public boolean isWordGuessed() {
+    public boolean ifWordGuessed() {
         return !String.valueOf(hiddenWord).contains("_");
     }
-
     public boolean ifGameFinished(){
-        return ifAttemptsExhausted() || isWordGuessed();
+        return areAttemptsExhausted() || ifWordGuessed();
     }
 }
