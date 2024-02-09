@@ -17,7 +17,7 @@ public class HangmanGUI {
     GibbetImage gibbetImage = new GibbetImage();
 
     public HangmanGUI() {
-        userName = JOptionPane.showInputDialog(null, "Please enter your name:", "Welcome to Hangman Game!", JOptionPane.PLAIN_MESSAGE).toUpperCase();
+        dislplayWelcomeWindow("WELCOME TO THE HANGMAN GAME!");
         setFrame();
         setAttemptsLabel();
         setTextField();
@@ -27,14 +27,12 @@ public class HangmanGUI {
         setMainPanel();
         setGuessPanel();
         addComponentsToFrame();
-
-        setWelcomeImage();
         performAction();
     }
 
     private void setFrame() {
         frame = new JFrame("Hangman Game");
-        frame.setSize(1500, 700);
+        frame.setSize(700, 700);
         frame.setLocationRelativeTo(null);
         frame.setLayout(new BorderLayout());
         frame.setVisible(true);
@@ -145,21 +143,17 @@ public class HangmanGUI {
         JOptionPane.showMessageDialog(frame, message, "Invalid Input", JOptionPane.ERROR_MESSAGE);
     }
 
-    // Displaying final message when user win or lost
+    // Displaying a final message when user win or lost
     private void displayFinalResult() {
         if (game.areAttemptsExhausted()) {
-            JOptionPane.showMessageDialog(frame, "All attempts exhausted! You lost :(", "Hangman Game", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(frame, "Oh no, " + userName +  "... All attempts exhausted! You've lost", "Hangman Game", JOptionPane.PLAIN_MESSAGE);
         } else if (game.ifWordGuessed()) {
-            JOptionPane.showMessageDialog(frame, "Congratulations! You guessed! :)", "Hangman Game", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(frame, "Congratulations " + userName +"! You guessed the word!", "Hangman Game", JOptionPane.PLAIN_MESSAGE);
         }
     }
 
     private void clearTextField(JTextField field) {
         field.setText("");
-    }
-
-    private void setWelcomeImage() {
-        imageLabel.setIcon(gibbetImage.welcomeImage);
     }
 
     private void setGibbetImage() {
@@ -168,5 +162,27 @@ public class HangmanGUI {
 
     private void displayUpdatedWord() {
         wordLabel.setText(String.valueOf(Game.getHiddenWord()));
+    }
+
+    // Displaying the WelcomeWindow with Play and Exit options
+    private void dislplayWelcomeWindow(String message){
+        String[] options = {"Play", "Exit"};
+        JPanel panel = new JPanel(new BorderLayout());
+        JLabel textLabel = new JLabel(message);
+        textLabel.setFont(new Font(textLabel.getFont().getName(), Font.PLAIN, 40));
+        textLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        panel.add(textLabel, BorderLayout.NORTH);
+
+        ImageIcon icon = gibbetImage.welcomeImage;
+        JLabel imageLabel = new JLabel(icon);
+        panel.add(imageLabel, BorderLayout.CENTER);
+
+        int choice = JOptionPane.showOptionDialog(frame, panel, "Hangman Game", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
+        if (choice == JOptionPane.YES_OPTION) {
+            userName = JOptionPane.showInputDialog(null, "Please enter your name:", "Hangman Game", JOptionPane.PLAIN_MESSAGE);
+        } else {
+            System.exit(0);
+        }
     }
 }

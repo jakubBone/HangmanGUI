@@ -1,18 +1,17 @@
-
 import java.util.Random;
 import java.util.Scanner;
-
 public class Game{
     Scanner scanner = new Scanner(System.in);
     private static String word;
     private static char[] wordInTable;
     private static char[] hiddenWord;
     private static int attemptsCounter = 11;
-    private String[] words = {"BIKE", "CROCODILE", "MOVIE", "ERROR", "MEXICO", "AIRPORT"};
+    private String[] words = {"JAVA", "PYTHON", "DEVELOPER", "SWING"};
 
     public Game(){
         initWord();
     }
+
     // Randomizing the word from array and hide the letters to '_'
     private void initWord() {
         Random random = new Random();
@@ -24,7 +23,7 @@ public class Game{
             hiddenWord[i] = '_';
         }
         for (int i = 0; i < word.length(); i++) {
-            System.out.print(hiddenWord[i]);
+            //System.out.print(hiddenWord[i]);
         }
     }
 
