@@ -13,14 +13,14 @@ public class Game{
     public Game(){
         initializeWord();
     }
-
+    // Randomize the word from array and hide the letters to '_'
     private void initializeWord() {
         Random random = new Random();
         int index = random.nextInt(words.length);
         word = words[index];
-        wordInTable = word.toCharArray();                   // First the word is fragmented into chars and located in wordInTable
+        wordInTable = word.toCharArray();
         hiddenWord = new char[word.length()];
-        for (int i = 0; i < word.length(); i++ ) {           // The char[] hiddenWord is filled by '_'
+        for (int i = 0; i < word.length(); i++ ) {
             hiddenWord[i] = '_';
         }
         System.out.print("Word to guess: ");

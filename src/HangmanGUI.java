@@ -17,7 +17,8 @@ public class HangmanGUI {
     GibbetImage gibbetImage = new GibbetImage();
 
     public HangmanGUI() {
-        userName = JOptionPane.showInputDialog("Welcome in Hangman Game! Please enter your name:").toUpperCase();
+        userName = JOptionPane.showInputDialog(null, "Please enter your name:", "Welcome to Hangman Game!", JOptionPane.PLAIN_MESSAGE).toUpperCase();
+        //userName = JOptionPane.showInputDialog("Welcome in Hangman Game! Please enter your name:").toUpperCase();
         setFrame();
         setAttemptsLabel();
         setTextField();
@@ -29,9 +30,7 @@ public class HangmanGUI {
         addComponentsToFrame();
 
         setWelcomeImage();
-
         performAction();
-
 
     }
 
@@ -49,6 +48,7 @@ public class HangmanGUI {
         attemptsLabel.setHorizontalAlignment(SwingConstants.CENTER);
         attemptsLabel.setFont(new Font(attemptsLabel.getFont().getName(), Font.PLAIN, 20));
     }
+
     private void setTextField(){
         textField = new JTextField(1);
         textField.setFont(new Font(textField.getFont().getName(), Font.PLAIN, 30)); // Letter size
@@ -102,28 +102,14 @@ public class HangmanGUI {
         guessButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 String guessedLetter = textField.getText().toUpperCase();
 
-                if (guessedLetter.length() != 1) {
-                        JOptionPane.showMessageDialog(frame, "Please enter a single letter...", "Invalid Input", JOptionPane.ERROR_MESSAGE);
-                        return;
-                }
-
-                if(game.checkGuess(guessedLetter.charAt(0))){
-                    attemptsLabel.setText("Hit! Well done " + userName + "! Keep going!");
-                } else{
-                    game.decrementAttemptsCounter();
-                    attemptsLabel.setText("Yikes! That must have hurt... Be careful! You still have "
-                            + String.valueOf(game.getAttemptsCounter()) + " attempts left");;
-                    gibbetImage.incrementCurrentImageIndex();
-                    setGibbetImage();
-                }
-                wordLabel.setText(String.valueOf(Game.getHiddenWord()));
+                displayGameMessage(guessedLetter);
+                displayUpdatedWord();
                 clearTextField(textField);
 
                 if(game.ifGameFinished()){
-                    displayGameResult();
+                    displayFinalResult();
                     System.exit(0);
                 }
             }
@@ -139,12 +125,38 @@ public class HangmanGUI {
     private void setGibbetImage(){
         imageLabel.setIcon(gibbetImage.getImage());
     }
+    private void displayUpdatedWord(){
+        wordLabel.setText(String.valueOf(Game.getHiddenWord()));
+    }
 
-    private void displayGameResult(){
+    private void displayGameMessage(String guessedLetter){
+        if (guessedLetter.length() != 1) {
+            JOptionPane.showMessageDialog(frame, "Please enter a single letter...", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if(Game.getHiddenWord().contains(guessedLetter)){
+            JOptionPane.showMessageDialog(frame, "The letter used twice. Please try again", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if(game.checkGuess(guessedLetter.charAt(0))){
+            attemptsLabel.setText("Hit! Well done " + userName + "! Keep going!");
+        } else{
+            game.decrementAttemptsCounter();
+            attemptsLabel.setText("Yikes! That must have hurt... Be careful! You still have "
+                    + String.valueOf(game.getAttemptsCounter()) + " attempts left");;
+            gibbetImage.incrementCurrentImageIndex();
+            setGibbetImage();
+        }
+    }
+
+    private void displayFinalResult(){
         if(game.ifAttemptsExhausted()){
-            JOptionPane.showMessageDialog(null, "All attempts exhausted! You lost :(");
+            JOptionPane.showMessageDialog(frame, "All attempts exhausted! You lost :(", "Hangman Game", JOptionPane.PLAIN_MESSAGE);
+            //.showMessageDialog(null, "All attempts exhausted! You lost :(");
         } else if(game.isWordGuessed()){
-            JOptionPane.showMessageDialog(null, "Congratulations! You guessed! :)");
+            JOptionPane.showMessageDialog(frame, "Congratulations! You guessed! :)", "Hangman Game", JOptionPane.PLAIN_MESSAGE);
+
+            //JOptionPane.showMessageDialog(null, "Congratulations! You guessed! :)");
         }
     }
 
