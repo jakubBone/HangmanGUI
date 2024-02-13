@@ -1,5 +1,4 @@
 import java.util.Random;
-import java.util.Scanner;
 public class Game{
     Scanner scanner = new Scanner(System.in);
     private static String word;
@@ -21,9 +20,6 @@ public class Game{
         hiddenWord = new char[word.length()];
         for (int i = 0; i < word.length(); i++ ) {
             hiddenWord[i] = '_';
-        }
-        for (int i = 0; i < word.length(); i++) {
-            //System.out.print(hiddenWord[i]);
         }
     }
 

@@ -97,7 +97,6 @@ public class HangmanGUI {
         frame.add(mainPanel);
     }
 
-    // A basic method responsible for action performing after button press
     private void performAction() {
         guessButton.addActionListener(new ActionListener() {
             @Override
@@ -143,7 +142,6 @@ public class HangmanGUI {
         JOptionPane.showMessageDialog(frame, message, "Invalid Input", JOptionPane.ERROR_MESSAGE);
     }
 
-    // Displaying a final message when user win or lost
     private void displayFinalResult() {
         if (game.areAttemptsExhausted()) {
             JOptionPane.showMessageDialog(frame, "Oh no, " + userName +  "... All attempts exhausted! You've lost", "Hangman Game", JOptionPane.PLAIN_MESSAGE);
@@ -164,7 +162,6 @@ public class HangmanGUI {
         wordLabel.setText(String.valueOf(Game.getHiddenWord()));
     }
 
-    // Displaying the WelcomeWindow with Play and Exit options
     private void dislplayWelcomeWindow(String message){
         String[] options = {"Play", "Exit"};
         JPanel panel = new JPanel(new BorderLayout());
